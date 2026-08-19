@@ -1,0 +1,28 @@
+{
+  "name": "taskspark",
+  "version": "1.0.0",
+  "description": "AI-powered task extractor — turns messy text into a clean task list. Built for the AB Talks 60-Day Claude AI Challenge.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nidhisingh0z/taskspark.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Nidhisingh0z/taskspark/issues"
+  },
+  "homepage": "https://github.com/Nidhisingh0z/taskspark#readme",
+  "dependencies": {
+    "@google/genai": "^2.17.1",
+    "dotenv": "^17.4.2"
+  }
+}
