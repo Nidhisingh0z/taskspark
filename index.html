@@ -2,14 +2,63 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>TaskSpark</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskSpark — Messy text in. Clear tasks out.</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>TaskSpark — Hello World Check</h1>
-  <textarea id="inputText" rows="4" cols="50" placeholder="Type anything..."></textarea><br />
-  <button id="testBtn">Send to Gemini</button>
-  <p id="result"></p>
+  <div class="app">
+    <header class="app-header">
+      <h1>TaskSpark</h1>
+      <p class="tagline">Messy text in. Clear tasks out.</p>
+    </header>
+
+    <main class="app-main">
+      <section class="input-section">
+        <textarea
+          id="inputText"
+          placeholder="Paste your messy notes, email, or chat here..."
+          rows="6"
+        ></textarea>
+        <p id="inputWarning" class="warning hidden">Please paste some text first.</p>
+        <button id="extractBtn">Extract Tasks</button>
+      </section>
+
+      <section class="results-section">
+
+        <!-- Empty state: shown before first use -->
+        <div id="emptyState" class="state-box">
+          <p>Paste a messy note, email, or chat above — TaskSpark will pull out the tasks and deadlines for you.</p>
+        </div>
+
+        <!-- Loading state -->
+        <div id="loadingState" class="state-box hidden">
+          <div class="spinner"></div>
+          <p>Analyzing your text...</p>
+        </div>
+
+        <!-- Results state: task cards get injected here -->
+        <div id="resultsState" class="hidden">
+          <div id="taskList" class="task-list"></div>
+        </div>
+
+        <!-- No tasks found state -->
+        <div id="noTasksState" class="state-box hidden">
+          <p>No action items found in this text — try pasting something with a task or deadline in it.</p>
+        </div>
+
+        <!-- Error state -->
+        <div id="errorState" class="state-box error-box hidden">
+          <p>⚠ Something went wrong extracting your tasks. Please try again.</p>
+        </div>
+
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>Built for the AB Talks 60-Day Claude AI Challenge</p>
+    </footer>
+  </div>
 
   <script src="script.js"></script>
 </body>
