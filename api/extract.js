@@ -26,7 +26,6 @@ Input: "remember to call the dentist, pick up groceries tomorrow, and finish the
 Output: {"tasks":[{"task":"Call the dentist","dueDate":null},{"task":"Pick up groceries","dueDate":"Tomorrow"},{"task":"Finish the report","dueDate":"ASAP"}]}`;
 
 function extractJson(rawText) {
-  // Defensive: Gemini sometimes wraps JSON in markdown code fences despite instructions not to.
   let cleaned = rawText.trim();
   const fenceMatch = cleaned.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
   if (fenceMatch) {
@@ -47,6 +46,11 @@ function withTimeout(promise, ms) {
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(400).json({ error: 'Only POST requests are allowed.' });
+  }
+
+  if (!process.env.GEMINI_API_KEY) {
+    console.error('GEMINI_API_KEY is not configured.');
+    return res.status(500).json({ error: 'The server is not configured correctly. Please try again later.' });
   }
 
   const { text } = req.body || {};
