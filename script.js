@@ -1,5 +1,4 @@
-// TaskSpark — Day 4: UI states wired with temporary fake data.
-// Real Gemini extraction logic gets wired in on a later day (replaces FAKE_TASKS / simulateExtraction).
+// TaskSpark — Day 5: wired to the real /api/extract endpoint.
 
 const inputText = document.getElementById('inputText');
 const inputWarning = document.getElementById('inputWarning');
@@ -40,31 +39,20 @@ function renderTasks(tasks) {
   });
 }
 
-// Temporary fake data + fake network delay — stands in for the real /api/extract call.
-// Typing "notasks" or "error" into the textarea lets us preview those states today.
-function simulateExtraction(text) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const lower = text.toLowerCase();
-
-      if (lower.includes('error')) {
-        reject(new Error('Simulated failure'));
-        return;
-      }
-
-      if (lower.includes('notasks')) {
-        resolve([]);
-        return;
-      }
-
-      const FAKE_TASKS = [
-        { task: 'Send the deck', dueDate: 'Friday' },
-        { task: 'Get budget numbers from Raj', dueDate: 'Monday (before meeting)' },
-        { task: 'Call the dentist', dueDate: null },
-      ];
-      resolve(FAKE_TASKS);
-    }, 1200);
+async function extractTasks(text) {
+  const res = await fetch('/api/extract', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text }),
   });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.error || 'Something went wrong.');
+  }
+
+  return data.tasks;
 }
 
 extractBtn.addEventListener('click', async () => {
@@ -80,7 +68,7 @@ extractBtn.addEventListener('click', async () => {
   showState(loadingState);
 
   try {
-    const tasks = await simulateExtraction(text);
+    const tasks = await extractTasks(text);
 
     if (tasks.length === 0) {
       showState(noTasksState);
@@ -89,6 +77,7 @@ extractBtn.addEventListener('click', async () => {
       showState(resultsState);
     }
   } catch (err) {
+    console.error(err);
     showState(errorState);
   } finally {
     extractBtn.disabled = false;
