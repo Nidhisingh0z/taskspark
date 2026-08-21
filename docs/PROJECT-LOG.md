@@ -2,6 +2,9 @@
 
 Running log of daily progress for the AB Talks 60-Day Claude AI Challenge capstone.
 
+**Repo:** https://github.com/Nidhisingh0z/taskspark
+**Live site:** https://taskspark-six.vercel.app
+
 ---
 
 ## Day 1 — Requirements
@@ -16,35 +19,34 @@ Running log of daily progress for the AB Talks 60-Day Claude AI Challenge capsto
 - Status: ✅ Complete.
 
 ## Day 3 — Project Setup & Foundation
-- Verified/configured development environment (Node, npm, Git, Vercel CLI).
-- AI provider changed from Anthropic Claude to Google Gemini (builder decision).
-- Fixed a Day 2 file-creation issue (PowerShell/cmd mismatch).
-- Built and verified a minimal end-to-end "Hello World" pipeline.
+- Verified/configured development environment. AI provider changed from Anthropic Claude to Google Gemini.
+- Fixed a file-creation issue (PowerShell/cmd mismatch). Built and verified a minimal end-to-end pipeline.
 - Status: ✅ Complete.
 
 ## Day 4 — Core Feature Implementation (Core UI Build)
 - Built the complete, polished UI — all 5 states (Empty, Loading, Results, No-Tasks-Found, Error).
-- Wired the button to temporary fake data to test all states before real AI integration.
-- Cleaned up an accidentally committed `files.zip`; added `.gitignore` protection.
+- Wired the button to temporary fake data. Cleaned up an accidentally committed `files.zip`.
 - Status: ✅ Complete.
 
 ## Day 5 — Continue Core Feature Development
-- Built the real Gemini extraction prompt in `api/extract.js` — structured JSON output, validated against all 3 PRD sample cases.
-- Replaced fake data in `script.js` with a real `fetch('/api/extract', ...)` call.
-- Verified the full real pipeline end-to-end, locally.
+- Built the real Gemini extraction prompt — structured JSON output, validated against 3 PRD sample cases.
+- Replaced fake data with a real `fetch('/api/extract', ...)` call. Verified end-to-end, locally.
 - Status: ✅ Complete.
 
 ## Day 6 — Complete the MVP & Deliver a Working Demo
-- Added a production safety check for missing `GEMINI_API_KEY`.
-- Configured the Gemini API key as a Vercel Environment Variable.
-- Deployed TaskSpark live to production: **https://taskspark-six.vercel.app**
-- Debugged and resolved a real production issue: the environment variable didn't persist on first save, causing live extraction to fail with a clear, diagnosable error (caught via Vercel's live logs) — re-added, confirmed, and redeployed successfully.
-- Fully verified the live site: real extraction, "no tasks" handling, empty-input warning, footer visibility — all confirmed working on the actual deployed URL.
-- **TaskSpark v1.0 MVP is complete and publicly shareable.**
+- Added a production safety check for missing API key. Deployed live to Vercel.
+- Debugged and resolved a real production configuration issue via live logs.
+- **TaskSpark v1.0 MVP went live:** https://taskspark-six.vercel.app
 - Status: ✅ Complete.
 
-## Day 7 — (Not yet started)
-- Planned: Due date detection refinement & output hardening — wider test set, iterative prompt improvement, redeploy once refined.
+## Day 7 — Product Refinement & User Experience
+- Refined the extraction prompt: vague scheduling language, small-talk resistance, multi-task date splitting. Verified against 3 new tricky test cases — all passed.
+- Conducted a senior product/UX/engineering review; improved accessibility (ARIA live regions, focus states, reduced-motion support), added a live character counter, button loading spinner, staggered task card animation, and consistent SVG icons.
+- Redeployed and fully verified all improvements live in production.
+- Status: ✅ Complete.
+
+## Day 8 — (Not yet started)
+- Planned: Broader testing — cross-browser/device regression, edge cases (long input, special characters, network throttling), cleanup.
 
 ---
 
