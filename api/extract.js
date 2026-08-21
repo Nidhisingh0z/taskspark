@@ -7,9 +7,15 @@ const TIMEOUT_MS = 15000;
 const SYSTEM_PROMPT = `You extract actionable tasks and their due dates from raw, messy text such as emails, chat messages, or notes.
 
 RULES:
-- Only extract genuine action items — things the reader needs to do. Ignore greetings, small talk, and general commentary.
-- For each task, detect a due date or deadline if one is mentioned. This includes relative phrases like "tomorrow", "next Friday", "by Monday", or urgency words like "asap" / "urgent". If no date or urgency is mentioned, use null.
-- Do not invent tasks that are not implied by the text.
+- Only extract genuine action items — things the reader needs to do. Ignore greetings, small talk, opinions, and general commentary, even in longer or more rambling messages.
+- For each task, detect a due date or deadline if one is mentioned. This includes:
+  - Explicit dates/days ("Friday", "March 3rd", "next Tuesday")
+  - Relative phrases ("tomorrow", "in 2 days", "next week")
+  - Urgency words ("asap", "urgent") — use the string "ASAP" for these
+  - Vague scheduling language ("end of day", "by end of week", "sometime next week", "whenever you get a chance") — capture it as written, in natural phrasing
+  - If truly no date or urgency is mentioned anywhere near the task, use null
+- If one sentence contains multiple tasks with different or shared dates, split them into separate task entries, each with its own correct dueDate.
+- Do not invent tasks that are not implied by the text. Do not merge unrelated tasks into one.
 - If the text contains no actionable tasks, return an empty tasks array.
 - Respond with ONLY valid JSON in exactly this shape, and nothing else — no explanation, no markdown code fences:
 {"tasks":[{"task":"string","dueDate":"string or null"}]}
@@ -23,7 +29,16 @@ Input: "Just checking in, hope you're doing well, let's catch up soon"
 Output: {"tasks":[]}
 
 Input: "remember to call the dentist, pick up groceries tomorrow, and finish the report asap"
-Output: {"tasks":[{"task":"Call the dentist","dueDate":null},{"task":"Pick up groceries","dueDate":"Tomorrow"},{"task":"Finish the report","dueDate":"ASAP"}]}`;
+Output: {"tasks":[{"task":"Call the dentist","dueDate":null},{"task":"Pick up groceries","dueDate":"Tomorrow"},{"task":"Finish the report","dueDate":"ASAP"}]}
+
+Input: "no rush at all, but whenever you get a chance could you review the proposal, and also please send invoices by end of day"
+Output: {"tasks":[{"task":"Review the proposal","dueDate":"Whenever you get a chance"},{"task":"Send invoices","dueDate":"End of day"}]}
+
+Input: "great meeting today, really appreciated everyone's input, let's keep the momentum going"
+Output: {"tasks":[]}
+
+Input: "can you fix the login bug and also update the docs, both need to be done sometime next week"
+Output: {"tasks":[{"task":"Fix the login bug","dueDate":"Next week"},{"task":"Update the docs","dueDate":"Next week"}]}`;
 
 function extractJson(rawText) {
   let cleaned = rawText.trim();
