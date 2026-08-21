@@ -5,26 +5,47 @@ Running log of daily progress for the AB Talks 60-Day Claude AI Challenge capsto
 ---
 
 ## Day 1 — Requirements
-- Discovered the project idea through a guided interview: an AI-powered tool that extracts tasks + due dates from messy pasted text (notes, emails, chat).
+- Discovered the project idea: an AI-powered tool that extracts tasks + due dates from messy pasted text.
 - Locked v1.0 scope: plain text input only, no accounts, no database, no saved history.
-- Deliverables produced: PRD, Implementation Blueprint (Days 2–10), Pitch Deck.
+- Deliverables: PRD, Implementation Blueprint (Days 2–10), Pitch Deck.
 - Status: ✅ Complete.
 
 ## Day 2 — System Design
-- Created standalone public GitHub repository: `Nidhisingh0z/taskspark`.
-- Cloned locally to `D:\claude\taskspark` and created the initial project structure (`api/`, `docs/`, `index.html`, `style.css`, `script.js`).
-- Finalized the tech stack: HTML/CSS/JS frontend, one Node serverless function backend, no database, no auth, Claude API (`claude-haiku-4-5-20251001`), Vercel hosting.
-- Designed and documented full system architecture (component diagram, data flow, request lifecycle) — see `docs/ARCHITECTURE.md`.
-- Validated the "no database" decision against every user story — see `docs/SCHEMA.md`.
-- Designed the complete API contract for the single `/api/extract` endpoint — see `docs/API.md`.
-- Designed the full user flow and low-fidelity wireframes for all 5 UI states — see `docs/UI-WIREFRAMES.md`.
-- Finalized and documented the project folder structure — see `docs/PROJECT-STRUCTURE.md`.
-- Confirmed Day 3 readiness: no scope creep, no blockers, implementation can begin immediately tomorrow.
+- Created GitHub repository, cloned locally, set up initial project structure.
+- Designed full system architecture, data schema rationale, API contract, UI wireframes, and project structure.
 - Status: ✅ Complete.
 
-## Day 3 — (Not yet started)
-- Planned: Core UI build (empty/loading/results states, styled and responsive).
+## Day 3 — Project Setup & Foundation
+- Verified/configured development environment (Node, npm, Git, Vercel CLI).
+- AI provider changed from Anthropic Claude to Google Gemini (builder decision).
+- Fixed a Day 2 file-creation issue (PowerShell/cmd mismatch).
+- Built and verified a minimal end-to-end "Hello World" pipeline.
+- Status: ✅ Complete.
+
+## Day 4 — Core Feature Implementation (Core UI Build)
+- Built the complete, polished UI — all 5 states (Empty, Loading, Results, No-Tasks-Found, Error).
+- Wired the button to temporary fake data to test all states before real AI integration.
+- Cleaned up an accidentally committed `files.zip`; added `.gitignore` protection.
+- Status: ✅ Complete.
+
+## Day 5 — Continue Core Feature Development
+- Built the real Gemini extraction prompt in `api/extract.js` — structured JSON output, validated against all 3 PRD sample cases.
+- Replaced fake data in `script.js` with a real `fetch('/api/extract', ...)` call.
+- Verified the full real pipeline end-to-end, locally.
+- Status: ✅ Complete.
+
+## Day 6 — Complete the MVP & Deliver a Working Demo
+- Added a production safety check for missing `GEMINI_API_KEY`.
+- Configured the Gemini API key as a Vercel Environment Variable.
+- Deployed TaskSpark live to production: **https://taskspark-six.vercel.app**
+- Debugged and resolved a real production issue: the environment variable didn't persist on first save, causing live extraction to fail with a clear, diagnosable error (caught via Vercel's live logs) — re-added, confirmed, and redeployed successfully.
+- Fully verified the live site: real extraction, "no tasks" handling, empty-input warning, footer visibility — all confirmed working on the actual deployed URL.
+- **TaskSpark v1.0 MVP is complete and publicly shareable.**
+- Status: ✅ Complete.
+
+## Day 7 — (Not yet started)
+- Planned: Due date detection refinement & output hardening — wider test set, iterative prompt improvement, redeploy once refined.
 
 ---
 
-*This log is updated at the end of each day and is part of the `docs/` folder alongside the PRD, Implementation Blueprint, and design docs.*
+*This log is updated at the end of each day and lives in the `docs/` folder.*
