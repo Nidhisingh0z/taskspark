@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TaskSpark — Messy text in. Clear tasks out.</title>
+  <meta name="description" content="Paste messy notes, emails, or chat, and TaskSpark uses AI to pull out clear, actionable tasks with due dates." />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -15,16 +16,27 @@
 
     <main class="app-main">
       <section class="input-section">
+        <label for="inputText" class="visually-hidden">Paste your messy text here</label>
         <textarea
           id="inputText"
           placeholder="Paste your messy notes, email, or chat here..."
           rows="6"
+          maxlength="5000"
+          aria-describedby="charCount inputWarning"
         ></textarea>
-        <p id="inputWarning" class="warning hidden">Please paste some text first.</p>
-        <button id="extractBtn">Extract Tasks</button>
+
+        <div class="input-meta">
+          <p id="inputWarning" class="warning hidden" role="alert">Please paste some text first.</p>
+          <p id="charCount" class="char-count">0 / 5,000</p>
+        </div>
+
+        <button id="extractBtn" type="button">
+          <span class="btn-label">Extract Tasks</span>
+          <span class="btn-spinner hidden" aria-hidden="true"></span>
+        </button>
       </section>
 
-      <section class="results-section">
+      <section class="results-section" aria-live="polite" aria-atomic="true">
 
         <!-- Empty state: shown before first use -->
         <div id="emptyState" class="state-box">
@@ -33,7 +45,7 @@
 
         <!-- Loading state -->
         <div id="loadingState" class="state-box hidden">
-          <div class="spinner"></div>
+          <div class="spinner" aria-hidden="true"></div>
           <p>Analyzing your text...</p>
         </div>
 
@@ -44,12 +56,14 @@
 
         <!-- No tasks found state -->
         <div id="noTasksState" class="state-box hidden">
+          <svg class="state-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <p>No action items found in this text — try pasting something with a task or deadline in it.</p>
         </div>
 
         <!-- Error state -->
-        <div id="errorState" class="state-box error-box hidden">
-          <p>⚠ Something went wrong extracting your tasks. Please try again.</p>
+        <div id="errorState" class="state-box error-box hidden" role="alert">
+          <svg class="state-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <p>Something went wrong extracting your tasks. Please try again.</p>
         </div>
 
       </section>
