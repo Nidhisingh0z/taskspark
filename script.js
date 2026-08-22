@@ -1,4 +1,4 @@
-// TaskSpark — Day 7: UX polish (char counter, button spinner, staggered animation, ARIA support).
+// TaskSpark — Day 8: production hardening (offline detection, malformed-data safety, rate-limit messaging).
 
 const inputText = document.getElementById('inputText');
 const inputWarning = document.getElementById('inputWarning');
@@ -12,10 +12,15 @@ const loadingState = document.getElementById('loadingState');
 const resultsState = document.getElementById('resultsState');
 const noTasksState = document.getElementById('noTasksState');
 const errorState = document.getElementById('errorState');
+const errorMessage = document.getElementById('errorMessage');
 const taskList = document.getElementById('taskList');
 
 const ALL_STATES = [emptyState, loadingState, resultsState, noTasksState, errorState];
 const MAX_LENGTH = 5000;
+
+const DEFAULT_ERROR_MESSAGE = 'Something went wrong extracting your tasks. Please try again.';
+const OFFLINE_ERROR_MESSAGE = 'You appear to be offline. Please check your connection and try again.';
+const RATE_LIMIT_ERROR_MESSAGE = 'Too many requests right now — please wait a moment and try again.';
 
 function showState(stateToShow) {
   ALL_STATES.forEach((state) => {
@@ -33,7 +38,15 @@ inputText.addEventListener('input', updateCharCount);
 
 function renderTasks(tasks) {
   taskList.innerHTML = '';
-  tasks.forEach((task, index) => {
+
+  // Defensive: only render tasks with a valid, non-empty task string.
+  // Malformed items are already filtered server-side, but this is a second
+  // safety net so the UI never shows "undefined" or a blank card.
+  const validTasks = tasks.filter(
+    (t) => t && typeof t.task === 'string' && t.task.trim() !== ''
+  );
+
+  validTasks.forEach((task, index) => {
     const card = document.createElement('div');
     card.className = 'task-card';
     card.style.animationDelay = `${index * 60}ms`;
@@ -42,14 +55,17 @@ function renderTasks(tasks) {
     taskTextEl.className = 'task-text';
     taskTextEl.textContent = task.task;
 
+    const hasDate = typeof task.dueDate === 'string' && task.dueDate.trim() !== '';
     const dateEl = document.createElement('span');
-    dateEl.className = 'date-pill' + (task.dueDate ? '' : ' no-date');
-    dateEl.textContent = task.dueDate ? `Due: ${task.dueDate}` : 'No date';
+    dateEl.className = 'date-pill' + (hasDate ? '' : ' no-date');
+    dateEl.textContent = hasDate ? `Due: ${task.dueDate}` : 'No date';
 
     card.appendChild(taskTextEl);
     card.appendChild(dateEl);
     taskList.appendChild(card);
   });
+
+  return validTasks.length;
 }
 
 async function extractTasks(text) {
@@ -59,13 +75,21 @@ async function extractTasks(text) {
     body: JSON.stringify({ text }),
   });
 
-  const data = await res.json();
-
-  if (!res.ok) {
-    throw new Error(data.error || 'Something went wrong.');
+  let data;
+  try {
+    data = await res.json();
+  } catch {
+    throw new Error(DEFAULT_ERROR_MESSAGE);
   }
 
-  return data.tasks;
+  if (!res.ok) {
+    if (res.status === 429) {
+      throw new Error(RATE_LIMIT_ERROR_MESSAGE);
+    }
+    throw new Error(data.error || DEFAULT_ERROR_MESSAGE);
+  }
+
+  return Array.isArray(data.tasks) ? data.tasks : [];
 }
 
 function setLoadingButton(isLoading) {
@@ -84,20 +108,29 @@ extractBtn.addEventListener('click', async () => {
   }
   inputWarning.classList.add('hidden');
 
+  // Fail fast with a clear message if the browser already knows it's offline,
+  // rather than waiting for a slow network timeout.
+  if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+    errorMessage.textContent = OFFLINE_ERROR_MESSAGE;
+    showState(errorState);
+    return;
+  }
+
   setLoadingButton(true);
   showState(loadingState);
 
   try {
     const tasks = await extractTasks(text);
+    const renderedCount = renderTasks(tasks);
 
-    if (tasks.length === 0) {
+    if (renderedCount === 0) {
       showState(noTasksState);
     } else {
-      renderTasks(tasks);
       showState(resultsState);
     }
   } catch (err) {
     console.error(err);
+    errorMessage.textContent = err.message || DEFAULT_ERROR_MESSAGE;
     showState(errorState);
   } finally {
     setLoadingButton(false);

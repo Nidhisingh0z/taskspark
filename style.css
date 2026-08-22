@@ -6,7 +6,7 @@
   --white: #FFFFFF;
   --dark-text: #1B1B1F;
   --grey-text: #595959;
-  --muted-text: #8A90A8;
+  --muted-text: #6B7186;
   --error-red: #B3261E;
   --error-bg: #FDECEA;
   --border-color: #DDE2F0;
@@ -254,7 +254,7 @@ body {
 }
 
 .date-pill.no-date {
-  background: #A8AEC9;
+  background: #7A8099;
 }
 
 @keyframes fadeSlideIn {
