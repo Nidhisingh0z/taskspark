@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Certificate of Completion — TaskSpark</title>
+<style>
+  :root {
+    --navy: #1E2761;
+    --ice: #CADCFC;
+    --ice-bg: #F2F5FC;
+    --gold: #B08D3F;
+    --grey-text: #4A4F63;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    background: #E7ECF7;
+    display: flex;
+    justify-content: center;
+    padding: 40px 16px;
+  }
+  .certificate {
+    background: #FFFFFF;
+    width: 100%;
+    max-width: 900px;
+    padding: 56px 64px;
+    border: 2px solid var(--navy);
+    position: relative;
+  }
+  .certificate::before {
+    content: "";
+    position: absolute;
+    top: 10px; left: 10px; right: 10px; bottom: 10px;
+    border: 1px solid var(--gold);
+    pointer-events: none;
+  }
+  .logo-slot {
+    text-align: center;
+    margin-bottom: 12px;
+    color: #9AA1B5;
+    font-family: -apple-system, sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+  }
+  .logo-slot .box {
+    display: inline-block;
+    width: 120px;
+    height: 48px;
+    border: 1px dashed #C7CCDC;
+    border-radius: 6px;
+    line-height: 48px;
+  }
+  .eyebrow {
+    text-align: center;
+    font-family: -apple-system, sans-serif;
+    color: var(--gold);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 18px;
+  }
+  h1 {
+    text-align: center;
+    color: var(--navy);
+    font-size: 2.4rem;
+    margin: 10px 0 4px;
+    font-weight: normal;
+  }
+  .subtitle {
+    text-align: center;
+    color: var(--grey-text);
+    font-size: 1.05rem;
+    font-family: -apple-system, sans-serif;
+    margin-bottom: 36px;
+  }
+  .presented-to {
+    text-align: center;
+    font-family: -apple-system, sans-serif;
+    color: #6A6F82;
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+  }
+  .name {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--navy);
+    border-bottom: 1px solid var(--ice);
+    display: inline-block;
+    padding: 0 24px 8px;
+    margin: 0 auto 28px;
+    width: 100%;
+  }
+  .name-wrap { text-align: center; }
+  .body-text {
+    text-align: center;
+    color: #333644;
+    font-size: 1.02rem;
+    max-width: 640px;
+    margin: 0 auto 28px;
+    line-height: 1.7;
+  }
+  .project-line {
+    text-align: center;
+    font-family: -apple-system, sans-serif;
+    color: var(--navy);
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+  }
+  .version-line {
+    text-align: center;
+    font-family: -apple-system, sans-serif;
+    color: var(--grey-text);
+    font-size: 0.9rem;
+    margin-bottom: 36px;
+  }
+  .details-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 48px;
+    font-family: -apple-system, sans-serif;
+  }
+  .detail {
+    text-align: center;
+    flex: 1;
+  }
+  .detail .line {
+    border-top: 1px solid #B7BCD1;
+    width: 80%;
+    margin: 0 auto 6px;
+    padding-top: 6px;
+  }
+  .detail .label {
+    font-size: 0.78rem;
+    color: #8A90A8;
+    letter-spacing: 0.3px;
+  }
+  .detail .value {
+    font-size: 0.95rem;
+    color: var(--navy);
+    font-weight: 600;
+    margin-top: 2px;
+  }
+  .credits {
+    text-align: center;
+    font-family: -apple-system, sans-serif;
+    color: #8A90A8;
+    font-size: 0.82rem;
+    margin-top: 40px;
+    line-height: 1.8;
+  }
+  .credits a {
+    color: var(--navy);
+    text-decoration: none;
+  }
+
+  @media print {
+    body { background: #FFFFFF; padding: 0; }
+    .certificate { border: 2px solid var(--navy); box-shadow: none; max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+  <div class="certificate">
+    <div class="logo-slot"><span class="box">AB Talks logo</span></div>
+    <div class="eyebrow">AB Talks 60-Day Claude AI Challenge</div>
+    <h1>Certificate of Completion</h1>
+    <div class="subtitle">10-Day Capstone Sprint</div>
+
+    <div class="name-wrap">
+      <div class="presented-to">This certifies that</div>
+      <div class="name">Nidhi Singh</div>
+    </div>
+
+    <div class="body-text">
+      has successfully completed the AB Talks 10-Day Capstone Sprint, part of the AB Talks 60-Day Claude AI Challenge, by independently designing, building, hardening, and deploying a production-ready application.
+    </div>
+
+    <div class="project-line">TaskSpark</div>
+    <div class="version-line">Version 1.0.0 &middot; taskspark-six.vercel.app</div>
+
+    <div class="details-row">
+      <div class="detail">
+        <div class="line"></div>
+        <div class="label">Completion date</div>
+        <div class="value">September 5, 2026</div>
+      </div>
+      <div class="detail">
+        <div class="line"></div>
+        <div class="label">Project mentor</div>
+        <div class="value">Claude (free tier)</div>
+      </div>
+      <div class="detail">
+        <div class="line"></div>
+        <div class="label">Challenge</div>
+        <div class="value">AB Talks AI Challenge</div>
+      </div>
+    </div>
+
+    <div class="credits">
+      Presented by <a href="https://www.abtalks.in/">AB Talks</a> &middot;
+      <a href="https://www.linkedin.com/company/abtalks-on-ai/">AB Talks on LinkedIn</a><br />
+      This capstone project was completed as part of the AB Talks 60-Day Claude AI Challenge.
+    </div>
+  </div>
+</body>
+</html>
